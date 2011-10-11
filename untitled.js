@@ -38,15 +38,24 @@ var msgid = msgtext.match(/Message-ID: <(.*?)>/i)[1];
 // List-Help: <http://www.google.com/support/a/google.com/bin/static.py?hl=en_US&page=groups.cs>, <mailto:chrome-devrel+help@google.com>
 // List-Archive: <http://groups.google.com/a/google.com/group/chrome-devrel/?hl=en_US>
 
+// List-ID: <google-chrome-developer-tools.googlegroups.com>
+// List-Post: <http://groups.google.com/group/google-chrome-developer-tools/post?hl=en_US>, <mailto:google-chrome-developer-tools@googlegroups.com>
+// List-Help: <http://groups.google.com/support/?hl=en_US>, <mailto:google-chrome-developer-tools+help@googlegroups.com>
+// List-Archive: <http://groups.google.com/group/google-chrome-developer-tools?hl=en_US>
 
 var listid = msgtext.match(/List-ID: <(.*?)>/i)[1]
   , srcroot
   , url
 
 // get the search root
-if (/google\.com$/.test(listid)){
+if (/(google|googlegroups)\.com$/.test(listid)){
 	srcroot = msgtext.match(/List-Post: <(.*?)\/group\//)[1];	
 
+// for old google groups
+//	url = srcroot + '/groups/search?as_umsgid=' + encodeURIComponent(msgid);
+
+
+// for new google groups
 	url = srcroot + '/groups?msgid=' + encodeURIComponent(msgid);
 
 	// heres the selector for that link:
