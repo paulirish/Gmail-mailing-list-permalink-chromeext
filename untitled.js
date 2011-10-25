@@ -43,7 +43,20 @@ var msgid = msgtext.match(/Message-ID: <(.*?)>/i)[1];
 // List-Help: <http://groups.google.com/support/?hl=en_US>, <mailto:google-chrome-developer-tools+help@googlegroups.com>
 // List-Archive: <http://groups.google.com/group/google-chrome-developer-tools?hl=en_US>
 
-var listid = msgtext.match(/List-ID: <(.*?)>/i)[1]
+
+// FIXME: this one is broken:
+//    List-ID: <chromium-html5.chromium.org>
+//    X-Google-Group-Id: 874170190433
+//    List-Post: <http://groups.google.com/a/chromium.org/group/chromium-html5/post?hl=en_US>,
+//     <mailto:chromium-html5@chromium.org>
+//    List-Help: <http://www.google.com/support/a/chromium.org/bin/static.py?hl=en_US&page=groups.cs>,
+//     <mailto:chromium-html5+help@chromium.org>
+//    List-Archive: <http://groups.google.com/a/chromium.org/group/chromium-html5/?hl=en_US>
+//    List-Subscribe: <http://groups.google.com/a/chromium.org/group/chromium-html5/subscribe?hl=en_US>,
+//     <mailto:chromium-html5+subscribe@chromium.org>
+
+// and then sometimes there is no listid in the orig message..
+var listid = (msgtext.match(/List-ID: <(.*?)>/i) || msgtext.match(/\nTo: .*?<(.*?)>/i))[1]
   , srcroot
   , url
 
