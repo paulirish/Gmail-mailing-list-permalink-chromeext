@@ -1,10 +1,10 @@
 
 /*
 
-// bind on 
+// bind on
 $$('#canvas_frame')[0].contentDocument
 
-// for click on 
+// for click on
 querySelectorAll('#\\:1n1')
 
 
@@ -13,7 +13,7 @@ querySelectorAll('#\\:1n1')
 
 // and clone it.
 
-// 
+//
 .innerHTML = .innerHTML.replace('Forward', 'View in Groups')
 
 
@@ -26,7 +26,9 @@ querySelectorAll('#\\:1n1')
 // https://mail.google.com/mail/?ui=2&ik=5ac907bf92&view=om&th=132f06dcf1473cae
 var msgtext = document.body.textContent;
 
-var msgid = msgtext.match(/Message-ID: <(.*?)>/i)[1];
+var msgid = msgtext.match(/\nMessage-ID: <(.*?)>/i)[1];
+
+var subject = msgtext.match(/\nSubject: (.*)/)[1];
 
 // List-Id: <www-style.w3.org>
 // List-Help: <http://www.w3.org/Mail/>
@@ -56,35 +58,34 @@ var msgid = msgtext.match(/Message-ID: <(.*?)>/i)[1];
 //     <mailto:chromium-html5+subscribe@chromium.org>
 
 // and then sometimes there is no listid in the orig message..
-var listid = (msgtext.match(/List-ID: <(.*?)>/i) || msgtext.match(/\nTo: .*?<(.*?)>/i))[1]
+var listid = (msgtext.match(/\nList-ID: (.*)/i) || msgtext.match(/\nTo: .*?<(.*?)>/i))[1]
   , srcroot
   , url
 
-// get the search root
-if (/(google|googlegroups)\.com$/.test(listid)){
-	srcroot = msgtext.match(/List-Post: <(.*?)\/group\//)[1];	
-
-// for old google groups
-//	url = srcroot + '/groups/search?as_umsgid=' + encodeURIComponent(msgid);
+// google
+if (/(google|googlegroups)\.com/.test(listid)){
 
 
-// for new google groups
-	url = srcroot + '/groups?msgid=' + encodeURIComponent(msgid);
+	// google groups search is totally busted. :(
+	// so we'll just go to the group homepage.
+	url = msgtext.match(/\nList-Archive: <(.*)>/)[1];
 
-	// heres the selector for that link:
-	// $$('table.rf + * a')[0].href
-    
+// w3
+} else if (/w3\.org$/.test(listid)){
 
-} else 
-if (/w3\.org$/.test(listid)){
-
-	url = 'http://www.w3.org/mid/' + msgid + ';list=' + listid.replace(/w3\.org$/,'');
+	//url = 'http://www.w3.org/mid/' + msgid + ';list=' + listid.replace(/w3\.org$/,'');
+	url = "http://www.google.com/search?q=" + encodeURIComponent('site:lists.w3.org "' + subject + '"') + "&btnI";
 
 
+// webkit-dev
+} else if (/webkit-dev/.test(listid)){
+
+	// i'm feeling lucky
+	url = "http://www.google.com/search?q=" + encodeURIComponent('site:lists.webkit.org "' + subject + '"') + "&btnI";
 }
 
 
-
+console.log(url)
 window.open(url, Math.random());
 // location.href = url;
 
@@ -104,7 +105,7 @@ var url  = 'http://www.w3.org/Search/Mail/Public/advanced_search?'+
 
 // $$('.result strong a')[0].href
 
-// interestingly enough... 
+// interestingly enough...
 
 
 
