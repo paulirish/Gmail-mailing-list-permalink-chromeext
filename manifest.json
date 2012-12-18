@@ -1,6 +1,7 @@
 {
   "name": "Mailing List permalink",
   "version": "1.0.5",
+  "manifest_version" : 2,
   "icons" : {
   	"128" : "icon128.png"
   },
@@ -10,7 +11,7 @@
   ],
   "content_scripts": [
     {
-      "matches": ["https://mail.google.com/mail/*&view=om*"],
+      "matches": ["https://mail.google.com/mail/*view=om*"],
       "js": ["jquery.js", "untitled.js"]
     }
   ]
