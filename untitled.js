@@ -80,13 +80,18 @@ if (/(google|googlegroups)\.com/.test(listid)){
 // webkit-dev
 } else if (/webkit-dev/.test(listid)){
 
-	// i'm feeling lucky
 	url = "http://www.google.com/search?q=" + encodeURIComponent('site:lists.webkit.org "' + subject + '"') + "&btnI";
+
+// whatwg
+} else if (/whatwg/.test(listid)){
+
+	url = "http://www.google.com/search?q=" + encodeURIComponent('site:lists.whatwg.org "' + subject + '"') + "&btnI";
 }
 
 
-console.log(url)
-window.open(url, Math.random());
+
+if (url)
+	window.open(url, Math.random());
 // location.href = url;
 
 // get that URL and this part of it
